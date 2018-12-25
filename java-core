@@ -1,0 +1,13 @@
+一、 java中equals()和hashCode()方法详解.
+    1. java对equals()的方法要求： 自反性、对称性、传递性、一致性、非空性;
+    2. equals()默认方法是比较地址空间是否相同，重写要满足1的要求；hashCode()默认是本地native方法，和本地机器相关，一种算法映射一个地址；
+    3. 要明白hashCode()方法，首先要搞清楚java集合；java集合collection就两类，list和set，前者可重复，后者不可重复；判断重复一般要用equals()判断，
+    但当集合中元素很多时，例如已有1000个，新增1001个时要equals()比较1000个，效率太低；因此新增元素时，先用hashCode()计算地址是否已有对象，如果没有，
+    就可以直接放进集合；如果已有对象，则再判断equals()方法，相同就不存了，不相同再散列其他地址，这里有个冲突解决的问题；
+    4. java对equals()和hashCode()这样规定的：a. 如果两个对象相同，则hashCode()一定相同；b. 如果两个对象hashCode()相同，但两个对象不同，集合中新增
+    元素效率大大降低；c. equals()相同的对象hashCode()一定相同，hashCode()相同的对象equals()却不一定相同；
+二、 HashMap原理详解.
+      HashMap基于hashing原理，通过put(K,V)和get(K)来存储和获取对象；当我们用put存储键值对时，它调用key的hashCode()方法计算hashcode来找到bucket
+    位置存储键值对；当我们调用get获取对象时，通过key的hashcode值先获取bucket位置，然后通过key的equals()来获取具体的Entry键值对；HashMap通过链表
+    解决碰撞，当发生碰撞，对象将存储在链表的下个节点中；
+      当两个不同的键对象的hashcode相同时会发生什么？ 它们会储存在同一个bucket位置的链表中。键对象的equals()方法用来找到键值对.
